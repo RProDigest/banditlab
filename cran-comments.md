@@ -22,7 +22,7 @@ This is a new submission.
 * local: Windows 11 x64, R 4.5.0 (`devtools::check(remote = TRUE, manual = TRUE)`)
 * GitHub Actions: macOS (release), Windows (release),
   Ubuntu (devel, release, oldrel-1) -- all OK
-* win-builder: R-devel
+* win-builder: R-devel (2026-11-06 r90845 ucrt) -- 1 NOTE (new submission)
 
 ## Downstream dependencies
 
