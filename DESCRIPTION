@@ -1,7 +1,7 @@
 Package: banditlab
 Title: Multi-Armed Bandit Experimentation and Policy Comparison
 Version: 0.1.0
-Authors@R: person("Mubanga", "Nsofu", role = c("aut", "cre"), email = "ProDigest@Protonmail.com")
+Authors@R: person("Mubanga", "Nsofu", role = c("aut", "cre"), email = "RProDigest@protonmail.com")
 Description: A framework for simulating, comparing and extending multi-armed
     bandit algorithms. Provides stochastic reward environments, classical
     policies (random, greedy, epsilon-greedy, explore-then-commit, upper
@@ -25,6 +25,3 @@ URL: https://github.com/RProDigest/banditlab,
 BugReports: https://github.com/RProDigest/banditlab/issues
 Config/roxygen2/version: 8.0.0
 NeedsCompilation: no
-Packaged: 2026-07-20 18:16:45 UTC; mubangansofu
-Author: Mubanga Nsofu [aut, cre]
-Maintainer: Mubanga Nsofu <ProDigest@Protonmail.com>

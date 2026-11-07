@@ -7,7 +7,7 @@ This is a new submission.
 0 errors | 0 warnings | 2 notes
 
 * checking CRAN incoming feasibility ... NOTE
-  Maintainer: 'Mubanga Nsofu <ProDigest@Protonmail.com>'
+  Maintainer: 'Mubanga Nsofu <RProDigest@protonmail.com>'
   New submission
 
 * checking for detritus in the temp directory ... NOTE

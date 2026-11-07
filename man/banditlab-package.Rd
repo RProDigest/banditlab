@@ -38,11 +38,11 @@ Useful links:
 
 }
 \author{
-\strong{Maintainer}: Mubanga Nsofu \email{ProDigest@Protonmail.com}
+\strong{Maintainer}: Mubanga Nsofu \email{RProDigest@protonmail.com}
 
 Authors:
 \itemize{
-  \item Mubanga Nsofu \email{ProDigest@Protonmail.com}
+  \item Mubanga Nsofu \email{RProDigest@protonmail.com}
 }
 
 }
