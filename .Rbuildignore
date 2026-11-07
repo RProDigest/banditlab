@@ -2,7 +2,7 @@
 ^_pkgdown\.yml$
 ^cran-comments\.md$
 ^\.github$
-^banditlab\.Rproj$
+^.*\.Rproj$
 ^\.Rproj\.user$
 ^docs$
 ^pkgdown$
