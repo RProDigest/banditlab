@@ -91,7 +91,7 @@ Then edit `cran-comments.md` so it states the results you actually got
 devtools::submit_cran()
 ```
 
-CRAN sends a confirmation link to **<ProDigest@Protonmail.com>** (the
+CRAN sends a confirmation link to **<RProDigest@protonmail.com>** (the
 `Maintainer` in DESCRIPTION). Click it, or the submission is not
 processed. Make sure that inbox is one you check: all CRAN
 correspondence goes there.

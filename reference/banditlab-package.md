@@ -50,8 +50,8 @@ Useful links:
 
 ## Author
 
-**Maintainer**: Mubanga Nsofu <ProDigest@Protonmail.com>
+**Maintainer**: Mubanga Nsofu <RProDigest@protonmail.com>
 
 Authors:
 
-- Mubanga Nsofu <ProDigest@Protonmail.com>
+- Mubanga Nsofu <RProDigest@protonmail.com>
