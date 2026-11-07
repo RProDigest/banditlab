@@ -1,0 +1,12 @@
+^vignettes/articles$
+^_pkgdown\.yml$
+^cran-comments\.md$
+^\.github$
+^banditlab\.Rproj$
+^\.Rproj\.user$
+^docs$
+^pkgdown$
+^README\.Rmd$
+^LICENSE\.md$
+^CRAN-SUBMISSION$
+^RELEASE\.md$

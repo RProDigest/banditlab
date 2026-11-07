@@ -1,0 +1,30 @@
+Package: banditlab
+Title: Multi-Armed Bandit Experimentation and Policy Comparison
+Version: 0.1.0
+Authors@R: person("Mubanga", "Nsofu", role = c("aut", "cre"), email = "ProDigest@Protonmail.com")
+Description: A framework for simulating, comparing and extending multi-armed
+    bandit algorithms. Provides stochastic reward environments, classical
+    policies (random, greedy, epsilon-greedy, explore-then-commit, upper
+    confidence bound, Thompson sampling), a replicated experiment engine with
+    reproducible per-replicate random number streams, mathematically explicit
+    pseudo-regret metrics, tidy result objects and accessible default plots.
+    Custom policies can be added through a small documented S3 interface
+    without modifying the package. Methods follow Lattimore and Szepesvari
+    (2020, ISBN:9781108486828) and Sutton and Barto (2018, ISBN:9780262039246).
+License: MIT + file LICENSE
+Language: en-GB
+Encoding: UTF-8
+Roxygen: list(markdown = TRUE)
+Depends: R (>= 4.1)
+Imports: ggplot2 (>= 3.4.0), parallel, stats, tibble, utils
+Suggests: knitr, rmarkdown, testthat (>= 3.0.0), withr
+VignetteBuilder: knitr
+Config/testthat/edition: 3
+URL: https://github.com/RProDigest/banditlab,
+    https://rprodigest.github.io/banditlab/
+BugReports: https://github.com/RProDigest/banditlab/issues
+Config/roxygen2/version: 8.0.0
+NeedsCompilation: no
+Packaged: 2026-07-20 18:16:45 UTC; mubangansofu
+Author: Mubanga Nsofu [aut, cre]
+Maintainer: Mubanga Nsofu <ProDigest@Protonmail.com>

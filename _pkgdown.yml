@@ -1,0 +1,12 @@
+url: https://rprodigest.github.io/banditlab/
+template:
+  bootstrap: 5
+articles:
+- title: Get started
+  contents:
+  - getting-started
+  - comparing-policies
+  - custom-policies
+- title: Telecoms case studies
+  contents:
+  - articles/nr-link-adaptation

@@ -1,0 +1,124 @@
+---
+title: "Getting started with banditlab"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Getting started with banditlab}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  fig.width = 6,
+  fig.height = 4
+)
+```
+
+A multi-armed bandit problem is a repeated decision: at every step you
+choose one of several actions (arms), observe a reward only for the arm
+you chose, and try to earn as much as possible while still learning
+which arm is best. banditlab provides the three pieces every bandit
+experiment needs: an environment that generates rewards, policies that
+choose arms, and an engine that runs them together reproducibly.
+
+```{r setup}
+library(banditlab)
+```
+
+## 1. Create an environment
+
+An environment holds the true reward process. It is known to the
+simulation and hidden from every policy.
+
+```{r}
+env <- bandit_bernoulli(c(low = 0.15, mid = 0.25, high = 0.40))
+env
+```
+
+## 2. Choose policies
+
+Policy constructors store configuration only. They are independent of
+any environment, so the same policy object can run against many
+environments.
+
+```{r}
+policies <- list(
+  epsilon  = policy_epsilon_greedy(epsilon = 0.1),
+  ucb      = policy_ucb1(),
+  thompson = policy_thompson()
+)
+```
+
+## 3. Run a replicated experiment
+
+One run of a stochastic policy proves nothing, so the engine replicates.
+The single `seed` controls everything: each replicate gets its own
+independent random number stream, and every policy faces replicate `r`
+from the same stream start, which makes comparisons paired by
+construction.
+
+```{r}
+result <- run_experiment(
+  env,
+  policies,
+  horizon = 1000,
+  replications = 50,
+  seed = 42,
+  checkpoints = seq(50, 1000, by = 50)
+)
+result
+```
+
+## 4. Analyse the results
+
+`summary()` aggregates across replicates. The intervals are Monte Carlo
+quantiles across simulated runs, not confidence intervals for a real
+deployment.
+
+```{r}
+summary(result)
+```
+
+The per-replicate table is an ordinary tibble, so any dplyr or ggplot2
+workflow applies directly.
+
+```{r}
+as_tibble(result)
+```
+
+## 5. Plot
+
+`autoplot()` draws the standard diagnostics. Plots are plain ggplot
+objects; add your own theme or scales as usual.
+
+```{r regret-plot}
+autoplot(result, metric = "cumulative_regret")
+```
+
+```{r optimal-share-plot}
+autoplot(result, metric = "optimal_action_share")
+```
+
+## 6. Reproduce
+
+Rerunning with the same seed gives identical results, replicate by
+replicate. Results also do not depend on how many replicates you run:
+replicate 7 of 50 equals replicate 7 of 500, because each replicate has
+its own stream.
+
+```{r}
+again <- run_experiment(env, policies, horizon = 1000,
+                        replications = 50, seed = 42,
+                        checkpoints = seq(50, 1000, by = 50))
+identical(summary(again), summary(result))
+```
+
+## Where next
+
+- `vignette("comparing-policies")` covers paired comparisons and how to
+  read regret.
+- `vignette("custom-policies")` shows how to implement your own policy
+  and run it in the same engine.
+- `?regret_definitions` states the exact definitions of every metric.
