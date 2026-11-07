@@ -1,0 +1,195 @@
+# banditlab
+
+banditlab is an R framework for multi-armed bandit experimentation:
+simulating, comparing and extending sequential decision algorithms.
+
+It provides:
+
+- **Environments**: Bernoulli, Gaussian, and arbitrary user-defined
+  reward processes.
+- **Policies**: random, greedy (with optimistic initial values),
+  epsilon-greedy (fixed and scheduled), explore-then-commit, UCB1 and
+  Beta-Bernoulli Thompson sampling.
+- **One experiment engine**: replicated runs, one independent random
+  number stream per replicate (results do not depend on how many
+  replicates you run), and seed-paired policy comparisons by
+  construction.
+- **Explicit metrics**: pseudo-regret with exact documented definitions
+  ([`?regret_definitions`](https://rprodigest.github.io/banditlab/reference/regret_definitions.md)),
+  never computed when the environment cannot support them.
+- **Tidy results**: summaries, checkpoints and full trajectories as
+  tibbles, sized deliberately (trajectories are opt-in).
+- **Propensity-complete logs**: every built-in stochastic policy logs
+  the marginal probability of each selected action, the prerequisite for
+  importance-weighted offline evaluation.
+- **A small extension API**: implement three S3 methods and your policy
+  runs in the same engine as the built-ins
+  ([`vignette("custom-policies")`](https://rprodigest.github.io/banditlab/articles/custom-policies.md)).
+
+## Why it exists
+
+The only general bandit framework R has had, `contextual`, was archived
+from CRAN in 2021. What remains covers Bayesian A/B analysis and
+clinical trial designs, not general bandit experimentation. banditlab
+fills that gap with a deliberately small, tested, dependency-light core
+(tibble and ggplot2 are the only non-base imports).
+
+## Installation
+
+Install the development version from GitHub:
+
+``` r
+
+# install.packages("remotes")
+remotes::install_github("RProDigest/banditlab")
+```
+
+Once released on CRAN:
+
+``` r
+
+install.packages("banditlab")
+```
+
+## In 60 seconds
+
+``` r
+
+library(banditlab)
+
+env <- bandit_bernoulli(c(low = 0.15, mid = 0.25, high = 0.40))
+
+result <- run_experiment(
+  env,
+  policies = list(
+    epsilon  = policy_epsilon_greedy(0.1),
+    ucb      = policy_ucb1(),
+    thompson = policy_thompson()
+  ),
+  horizon = 1000,
+  replications = 50,
+  seed = 42,
+  checkpoints = seq(50, 1000, by = 50)
+)
+
+summary(result)
+#> one row per policy: mean and quantiles of final cumulative regret,
+#> mean reward, mean optimal-action share
+
+autoplot(result, metric = "cumulative_regret")
+```
+
+Seed-paired comparison against a baseline:
+
+``` r
+
+cmp <- compare_policies(result, baseline = "epsilon")
+aggregate(difference ~ policy, data = cmp, FUN = mean)
+```
+
+## Telecoms case study
+
+The article [Bandits for RAN optimisation: 5G NR link
+adaptation](https://rprodigest.github.io/banditlab/articles/nr-link-adaptation.html)
+uses banditlab to compare bandit policies with a static CQI rule and
+outer-loop link adaptation (OLLA) in simulated stationary and drifting
+radio conditions. It builds both industry baselines with the extension
+API, without modifying the package.
+
+## Extending
+
+A custom policy is a constructor plus three S3 methods
+([`policy_state()`](https://rprodigest.github.io/banditlab/reference/policy_interface.md),
+[`select_arm()`](https://rprodigest.github.io/banditlab/reference/policy_interface.md),
+[`update_state()`](https://rprodigest.github.io/banditlab/reference/policy_interface.md)).
+The vignette
+[`vignette("custom-policies")`](https://rprodigest.github.io/banditlab/articles/custom-policies.md)
+implements softmax exploration from scratch and runs it against the
+built-in policies; the package’s own test suite runs a policy
+implemented this way to guarantee the extension interface keeps working.
+
+## Relationship to the book
+
+banditlab is the computational companion of the book in progress
+*Adaptive Bandit Methods with R*, which teaches the algorithms by
+building transparent implementations before introducing the package. The
+package is designed to stand alone: nothing in its documentation
+requires the book.
+
+## Development status
+
+Version 0.1.0. The public API described in the reference and vignettes
+is intended to be stable; the extension generics
+([`policy_state()`](https://rprodigest.github.io/banditlab/reference/policy_interface.md),
+[`select_arm()`](https://rprodigest.github.io/banditlab/reference/policy_interface.md),
+[`update_state()`](https://rprodigest.github.io/banditlab/reference/policy_interface.md))
+are the package’s compatibility contract. Planned directions
+(non-stationary environments, contextual policies, offline evaluation)
+are listed in the repository’s roadmap.
+
+## License
+
+MIT.
+
+# Package index
+
+## All functions
+
+- [`as_tibble(`*`<bandit_result>`*`)`](https://rprodigest.github.io/banditlab/reference/as_tibble.bandit_result.md)
+  : Convert experiment results to a tibble
+- [`autoplot(`*`<bandit_result>`*`)`](https://rprodigest.github.io/banditlab/reference/autoplot.bandit_result.md)
+  : Plot bandit experiment results
+- [`bandit_bernoulli()`](https://rprodigest.github.io/banditlab/reference/bandit_bernoulli.md)
+  : Create a Bernoulli bandit environment
+- [`bandit_custom()`](https://rprodigest.github.io/banditlab/reference/bandit_custom.md)
+  : Create a custom bandit environment
+- [`bandit_gaussian()`](https://rprodigest.github.io/banditlab/reference/bandit_gaussian.md)
+  : Create a Gaussian bandit environment
+- [`compare_policies()`](https://rprodigest.github.io/banditlab/reference/compare_policies.md)
+  : Seed-paired policy comparison
+- [`policy_epsilon_greedy()`](https://rprodigest.github.io/banditlab/reference/policy_epsilon_greedy.md)
+  : Epsilon-greedy policy
+- [`policy_etc()`](https://rprodigest.github.io/banditlab/reference/policy_etc.md)
+  : Explore-then-commit policy
+- [`policy_greedy()`](https://rprodigest.github.io/banditlab/reference/policy_greedy.md)
+  : Greedy policy with optional optimistic initial values
+- [`policy_state()`](https://rprodigest.github.io/banditlab/reference/policy_interface.md)
+  [`select_arm()`](https://rprodigest.github.io/banditlab/reference/policy_interface.md)
+  [`update_state()`](https://rprodigest.github.io/banditlab/reference/policy_interface.md)
+  : The policy extension interface
+- [`policy_random()`](https://rprodigest.github.io/banditlab/reference/policy_random.md)
+  : Random selection policy
+- [`policy_thompson()`](https://rprodigest.github.io/banditlab/reference/policy_thompson.md)
+  : Beta-Bernoulli Thompson sampling policy
+- [`policy_ucb1()`](https://rprodigest.github.io/banditlab/reference/policy_ucb1.md)
+  : UCB1 policy
+- [`regret_definitions`](https://rprodigest.github.io/banditlab/reference/regret_definitions.md)
+  : Regret definitions used by banditlab
+- [`run_experiment()`](https://rprodigest.github.io/banditlab/reference/run_experiment.md)
+  : Run a replicated bandit experiment
+- [`sample_reward()`](https://rprodigest.github.io/banditlab/reference/sample_reward.md)
+  : Draw one reward from an environment
+- [`scale_colour_banditlab()`](https://rprodigest.github.io/banditlab/reference/scale_colour_banditlab.md)
+  [`scale_fill_banditlab()`](https://rprodigest.github.io/banditlab/reference/scale_colour_banditlab.md)
+  [`scale_color_banditlab()`](https://rprodigest.github.io/banditlab/reference/scale_colour_banditlab.md)
+  : Okabe-Ito-based discrete colour and fill scales
+- [`summary(`*`<bandit_result>`*`)`](https://rprodigest.github.io/banditlab/reference/summary.bandit_result.md)
+  : Summarise a bandit experiment
+- [`theme_banditlab()`](https://rprodigest.github.io/banditlab/reference/theme_banditlab.md)
+  : banditlab plot theme
+
+# Articles
+
+### Get started
+
+- [Getting started with
+  banditlab](https://rprodigest.github.io/banditlab/articles/getting-started.md):
+- [Comparing bandit
+  policies](https://rprodigest.github.io/banditlab/articles/comparing-policies.md):
+- [Creating custom bandit
+  policies](https://rprodigest.github.io/banditlab/articles/custom-policies.md):
+
+### Telecoms case studies
+
+- [Bandits for RAN optimisation: 5G NR link
+  adaptation](https://rprodigest.github.io/banditlab/articles/nr-link-adaptation.md):
