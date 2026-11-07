@@ -10,6 +10,11 @@ This is a new submission.
   Maintainer: 'Mubanga Nsofu <RProDigest@protonmail.com>'
   New submission
 
+  Possibly misspelled words in DESCRIPTION: Barto, Lattimore, Szepesvari
+
+  These are author surnames in the cited references (Lattimore and
+  Szepesvari, 2020; Sutton and Barto, 2018) and are spelled correctly.
+
 * checking for detritus in the temp directory ... NOTE
   Found the following files/directories: 'lastMiKTeXException'
 
